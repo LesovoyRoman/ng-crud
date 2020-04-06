@@ -35,4 +35,43 @@ export class ApiService {
         catchError(this.handleError('getCases', []))
       );
   }
+
+  getCasesById(id: string): Observable<Cases> {
+    const url = `${apiUrl}/${id}`;
+    return this.http.get<Cases>(url).pipe(
+      tap(_ => console.log(`fetched cases id=${id}`)),
+      catchError(this.handleError<Cases>(`getCasesById id=${id}`))
+    );
+  }
+
+  addCases(cases: Cases): Observable<Cases> {
+    return this.http.post<Cases>(apiUrl, cases, httpOptions).pipe(
+      tap((c: Cases) => console.log(`added cases w/ id=${c._id}`)),
+      catchError(this.handleError<Cases>('addCases'))
+      );
+  }
+
+  updateCases(id: string, cases: Cases): Observable<any> {
+    const url = `${apiUrl}/${id}`;
+    return this.http.put(url, cases, httpOptions).pipe(
+      tap(_ => console.log(`updated cases id=${id}`)),
+      catchError(this.handleError<Cases>('updateCases'))
+    );
+  }
+
+  deleteCases(id: string): Observable<Cases> {
+    const url = `${apiUrl}/${id}`;
+    return this.http.delete<Cases>(url, httpOptions).pipe(
+      tap(_ => console.log(`deleted cases id=${id}`)),
+      catchError(this.handleError<Cases>('deletedCases'))
+    );
+  }
+
+  getStatistic(status: string): Observable<Statistic> {
+    const url = `${apiUrl}/daily/${status}`;
+    return this.http.get<Statistic>(url).pipe(
+      tap(_ => console.log(`fetched statistic status=${status}`)),
+      catchError(this.handleError<Statistic>(`getStatistic status=${status}`))
+    );
+  }
 }
