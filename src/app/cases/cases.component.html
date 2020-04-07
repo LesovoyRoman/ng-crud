@@ -1,1 +1,54 @@
-<p>cases works!</p>
+<div class="example-container mat-elevation-z8">
+  <h2>Corona Virus Cases List</h2>
+
+  <!-- Loader -->
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <!-- Partial Nav -->
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/add-cases']">
+      <mat-icon>add</mat-icon> Cases
+    </a>
+    <a mat-flat-button color="primary" [routerLink]="['/cases=stat']">
+      <mat-icon>bar_chart</mat-icon> Statistic
+    </a>
+  </div>
+
+  <div class="mat-elevation-z8">
+    <table
+      mat-table
+      [dataSource]="data"
+      class="example-table"
+      matSort matSortActive="name"
+      matSortDisableClear
+      matSortDirection="asc"
+    >
+
+      <!-- Cases Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Cases Name</th>
+        <th mat-cell *matCellDef="let row">{{ row.name }}</th>
+      </ng-container>
+
+      <!-- Cases Age Column -->
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef>Cases Age</th>
+        <th mat-cell *matCellDef="let row">{{ row.age }}</th>
+      </ng-container>
+
+      <!-- Cases Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Cases status</th>
+        <th mat-cell *matCellDef="let row">{{ row.status }}</th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row *matRowDef="let row; columns: displayedColumns;"
+        [routerLink]="['/cases-details/', row._id]">
+      </tr>
+    </table>
+  </div>
+</div>
